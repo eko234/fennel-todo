@@ -2,23 +2,27 @@
 (local console js.global.console)
 
 (local m (require :lib.mithril))
+
 (local Object (require :lib.object))
 (local Array (require :lib.array))
 (local utils (require :lib.utils))
-
 (local map utils.map)
 (local filter utils.filter)
 
 (local Todo (require :app.models.Todo))
 
+(local Container (require :app.components.Container))
+(local Grid (require :app.components.Grid))
+(local Cell (require :app.components.Cell))
+
 (Object {:view (fn [_ vnode]
                  (m
-                   ".container"
+                   Container
                    (m "h1" "Todo App")
                    (m
-                     ".grid"
+                     Grid
                      (m
-                       ".cell"
+                       Cell
                        (m "h2" "Todo")
                        (m
                          ".menu"
@@ -30,7 +34,8 @@
                                                 :onclick (fn [] (Todo:check (. $1 :id)))})
                                        (. $1 :task) (m ".pull-right" "+")))))
                      (m
-                       ".cell.-bottom"
+                       Cell
+                       (Object {:class "-bottom"})
                        (m "h3" "Done")
                        (m
                          ".menu"
@@ -42,7 +47,7 @@
                                                 :onclick (fn [] (Todo:check (. $1 :id)))})
                                        (. $1 :task) (m ".pull-right" "-")))))))
                      (m
-                       ".cell"
+                       Cell
                        (m "h2" "Add a task")
                        (m
                          "form.form"

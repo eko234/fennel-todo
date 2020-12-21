@@ -1,3 +1,27 @@
+package.preload["app.components.Cell"] = package.preload["app.components.Cell"] or function(...)
+  local m = require("lib.mithril")
+  local Object = require("lib.object")
+  local function _0_(_, vnode)
+    return m(".cell", vnode.attrs, vnode.children)
+  end
+  return Object({view = _0_})
+end
+package.preload["app.components.Grid"] = package.preload["app.components.Grid"] or function(...)
+  local m = require("lib.mithril")
+  local Object = require("lib.object")
+  local function _0_(_, vnode)
+    return m(".grid", vnode.children)
+  end
+  return Object({view = _0_})
+end
+package.preload["app.components.Container"] = package.preload["app.components.Container"] or function(...)
+  local m = require("lib.mithril")
+  local Object = require("lib.object")
+  local function _0_(_, vnode)
+    return m(".container", vnode.children)
+  end
+  return Object({view = _0_})
+end
 package.preload["lib.nanoid.non_secure"] = package.preload["lib.nanoid.non_secure"] or function(...)
   -- MIT License
   -- Copyright (c) 2020 Martín Aguilar
@@ -117,6 +141,9 @@ package.preload["app.views.TodoList"] = package.preload["app.views.TodoList"] or
   local map = utils.map
   local filter = utils.filter
   local Todo = require("app.models.Todo")
+  local Container = require("app.components.Container")
+  local Grid = require("app.components.Grid")
+  local Cell = require("app.components.Cell")
   local function _0_(_, vnode)
     local function _1_(_241)
       return (_241.done == false)
@@ -146,7 +173,7 @@ package.preload["app.views.TodoList"] = package.preload["app.views.TodoList"] or
       Todo["current"] = e.target.value
       return nil
     end
-    return m(".container", m("h1", "Todo App"), m(".grid", m(".cell", m("h2", "Todo"), m(".menu", Array(map(filter(Todo.list, _1_), _2_))), m(".cell.-bottom", m("h3", "Done"), m(".menu", Array(map(filter(Todo.list, _3_), _4_))))), m(".cell", m("h2", "Add a task"), m("form.form", Object({onsubmit = _5_}), m("fieldset.form-group", m("input[type=text][placeholder=Add todo...].form-control", Object({oninput = _6_, value = Todo.current}))), m(".form-actions", m("button[type=submit].btn.btn-primary.btn-block", "Add"))))), m("footer", Object({style = "\n                                   border-top: 1px solid #ccc;\n                                   margin-top: 80px;\n                                   margin-top: 5rem;\n                                   padding: 48px 0;\n                                   padding: 3rem 0;\n                                   "}), "Made with <3 by ", m("a", Object({href = "https://github.com/mrtnpwn"}), "mrtnpwn"), "."))
+    return m(Container, m("h1", "Todo App"), m(Grid, m(Cell, m("h2", "Todo"), m(".menu", Array(map(filter(Todo.list, _1_), _2_))), m(Cell, Object({class = "-bottom"}), m("h3", "Done"), m(".menu", Array(map(filter(Todo.list, _3_), _4_))))), m(Cell, m("h2", "Add a task"), m("form.form", Object({onsubmit = _5_}), m("fieldset.form-group", m("input[type=text][placeholder=Add todo...].form-control", Object({oninput = _6_, value = Todo.current}))), m(".form-actions", m("button[type=submit].btn.btn-primary.btn-block", "Add"))))), m("footer", Object({style = "\n                                   border-top: 1px solid #ccc;\n                                   margin-top: 80px;\n                                   margin-top: 5rem;\n                                   padding: 48px 0;\n                                   padding: 3rem 0;\n                                   "}), "Made with <3 by ", m("a", Object({href = "https://github.com/mrtnpwn"}), "mrtnpwn"), "."))
   end
   return Object({view = _0_})
 end
