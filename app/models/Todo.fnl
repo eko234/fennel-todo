@@ -10,9 +10,9 @@
                                     :task self.current
                                     :done false}))
  :check (fn [self id]
-          (tset self :list
-                          (map
-                              self.list
-                              #(if (= (. $1 :id) id)
-                                (do
-                                  (let [a $1] (tset a :done (not a.done)) a)) $1))))}
+          (tset self
+                :list
+                (map self.list
+                     #(if (= (. $1 :id) id)
+                        (do
+                          (let [a $1] (tset a :done (not a.done)) a)) $1))))}
