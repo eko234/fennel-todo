@@ -2,13 +2,15 @@
 (local utils (require :lib.utils))
 
 (local map utils.map)
+(local trim utils.trim)
 
 {:current ""
  :list [{:id (nanoid) :task "Do something more productive" :done false}]
  :submit (fn [self]
-           (table.insert self.list {:id (nanoid)
-                                    :task self.current
-                                    :done false}))
+           (if (~= "" (trim self.current))
+             (table.insert self.list {:id (nanoid)
+                                      :task self.current
+                                      :done false})))
  :check (fn [self id]
           (tset self
                 :list

@@ -9,4 +9,8 @@
       (when (f v)
         (table.insert out v))) out))
 
-{:map map :filter filter}
+(fn trim [s]
+  (or (and (s:match "^()%s*$") "")
+      (s:match "^%s*(.*%S)")))
+
+{:map map :filter filter :trim trim}

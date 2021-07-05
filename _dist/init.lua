@@ -71,9 +71,10 @@ package.preload["app.models.Todo"] = package.preload["app.models.Todo"] or funct
   local nanoid = require("lib.nanoid.non_secure")
   local utils = require("lib.utils")
   local map = utils.map
+  local trim = utils.trim
   local function _0_(self, id)
     local function _1_(_241)
-      if (_241.id == id) then
+      if ((_241).id == id) then
         local a = _241
         a["done"] = not a.done
         return a
@@ -85,7 +86,9 @@ package.preload["app.models.Todo"] = package.preload["app.models.Todo"] or funct
     return nil
   end
   local function _1_(self)
-    return table.insert(self.list, {done = false, id = nanoid(), task = self.current})
+    if ("" ~= trim(self.current)) then
+      return table.insert(self.list, {done = false, id = nanoid(), task = self.current})
+    end
   end
   return {check = _0_, current = "", list = {{done = false, id = nanoid(), task = "Do something more productive"}}, submit = _1_}
 end
@@ -106,7 +109,10 @@ package.preload["lib.utils"] = package.preload["lib.utils"] or function(...)
     end
     return out
   end
-  return {filter = filter, map = map}
+  local function trim(s)
+    return ((s:match("^()%s*$") and "") or s:match("^%s*(.*%S)"))
+  end
+  return {filter = filter, map = map, trim = trim}
 end
 package.preload["lib.array"] = package.preload["lib.array"] or function(...)
   local js = require("js")
@@ -146,22 +152,22 @@ package.preload["app.views.TodoList"] = package.preload["app.views.TodoList"] or
   local Cell = require("app.components.Cell")
   local function _0_(_, vnode)
     local function _1_(_241)
-      return (_241.done == false)
+      return ((_241).done == false)
     end
     local function _2_(_241)
       local function _3_()
-        return Todo:check(_241.id)
+        return Todo:check((_241).id)
       end
-      return m("a.menu-item", Object({onclick = _3_, style = "width: 90%;"}), _241.task, m(".pull-right", "+"))
+      return m("a.menu-item", Object({onclick = _3_, style = "width: 90%;"}), (_241).task, m(".pull-right", "+"))
     end
     local function _3_(_241)
-      return (_241.done == true)
+      return ((_241).done == true)
     end
     local function _4_(_241)
       local function _5_()
-        return Todo:check(_241.id)
+        return Todo:check((_241).id)
       end
-      return m("a.menu-item", Object({onclick = _5_, style = "width: 90%;"}), _241.task, m(".pull-right", "-"))
+      return m("a.menu-item", Object({onclick = _5_, style = "width: 90%;"}), (_241).task, m(".pull-right", "-"))
     end
     local function _5_(_0, e)
       e:preventDefault()
@@ -180,7 +186,7 @@ end
 package.preload["lib.mithril"] = package.preload["lib.mithril"] or function(...)
   local js = require("js")
   local m = js.global.m
-  local mt = nil
+  local mt
   local function _0_(_, ...)
     return m(nil, ...)
   end
